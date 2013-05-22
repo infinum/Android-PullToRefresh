@@ -1,4 +1,5 @@
 /*******************************************************************************
+
  * Copyright 2011, 2012 Chris Banes.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,6 +20,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.os.Bundle;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
@@ -29,6 +31,7 @@ import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase.State;
 import com.handmark.pulltorefresh.library.internal.EmptyViewMethodAccessor;
 import com.handmark.pulltorefresh.library.internal.LoadingLayout;
 
@@ -60,6 +63,16 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 	@Override
 	public final Orientation getPullToRefreshScrollDirection() {
 		return Orientation.VERTICAL;
+	}
+	
+	@Override
+	protected void onPtrRestoreInstanceState(Bundle savedInstanceState) {
+        State viewState = State.mapIntToValue(savedInstanceState.getInt(STATE_STATE, 0));
+        if (viewState == State.REFRESHING || viewState == State.MANUAL_REFRESHING) {
+            setState(viewState, true);
+        }
+	    super.onPtrRestoreInstanceState(savedInstanceState);
+	    
 	}
 
 	@Override

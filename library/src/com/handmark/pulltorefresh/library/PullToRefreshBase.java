@@ -809,11 +809,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 			// Let super Restore Itself
 			super.onRestoreInstanceState(bundle.getParcelable(STATE_SUPER));
 
-			State viewState = State.mapIntToValue(bundle.getInt(STATE_STATE, 0));
-			if (viewState == State.REFRESHING || viewState == State.MANUAL_REFRESHING) {
-				setState(viewState, true);
-			}
-
 			// Now let derivative classes restore their state
 			onPtrRestoreInstanceState(bundle);
 			return;
